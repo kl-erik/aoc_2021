@@ -19,12 +19,12 @@ public class Day_1 {
 
     try {
       sc = new Scanner(file);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
 
-    while (sc.hasNextLine()) {
-      arrayList.add(Integer.parseInt(sc.nextLine()));
+      while (sc.hasNextLine()) {
+        arrayList.add(Integer.parseInt(sc.nextLine()));
+      }
+    } catch (NumberFormatException | FileNotFoundException e) {
+      e.printStackTrace();
     }
 
     int[] input = new int[arrayList.size()];
