@@ -9,6 +9,7 @@ public class Day_2 {
   public static void main(String[] args) {
     Command[] input = getInput(new File("day_2/input.txt"));
     System.out.println(new Part_1().solve(input));
+    System.out.println(new Part_2().solve(input));
   }
 
   private static Command[] getInput(File file) {
