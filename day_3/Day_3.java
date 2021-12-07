@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Day_3 {
+
   public static void main(String[] args) {
     int[][] input = getInput(new File("day_3/input.txt"));
     System.out.println(new Part_1().solve(input));
+    System.out.println(new Part_2().solve(input));
   }
 
   private static int[][] getInput(File file) {
