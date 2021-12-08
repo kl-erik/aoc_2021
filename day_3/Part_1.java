@@ -2,20 +2,27 @@ package day_3;
 
 public class Part_1 {
 
-  public int solve(int[][] bs) {
-    if (bs.length == 0) {
+  public int solve(int[][] input) {
+    if (input.length == 0) {
       return 0;
     }
 
-    int n = bs[0].length;
-    int[] gammaBin = new int[n];
-    int[] epsilonBin = new int[n];
+    int[] bin = process(input);
+    int gamma = BinUtil.getVal(bin);
+    BinUtil.flip(bin);
+    int epsilon = BinUtil.getVal(bin);
 
-    for (int i = 0; i < n; i++) {
+    return gamma * epsilon;
+  }
+
+  private int[] process(int[][] input) {
+    int[] bin = new int[input[0].length];
+
+    for (int i = 0; i < bin.length; i++) {
       int ones = 0; 
       int zeroes = 0;
 
-      for (int[] b : bs) {
+      for (int[] b : input) {
         if (b[i] == 1) {
           ones++;
         } else {
@@ -23,25 +30,13 @@ public class Part_1 {
         }
       }
 
-      if (ones > zeroes) {
-        gammaBin[i] = 1;
-        epsilonBin[i] = 0;
+      if (ones >= zeroes) {
+        bin[i] = 1;
       } else {
-        gammaBin[i] = 0;
-        epsilonBin[i] = 1;
+        bin[i] = 0;
       }
     }
 
-    int gamma = 0;
-    int epsilon = 0;
-    int j = 0;
-
-    for (int i = n - 1; i >= 0; i--) {
-      gamma += gammaBin[i] * Math.pow(2, j);
-      epsilon += epsilonBin[i] * Math.pow(2, j);
-      j++;
-    }
-
-    return gamma * epsilon;
+    return bin;
   }
 }
