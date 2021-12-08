@@ -22,5 +22,4 @@ public class BinUtil {
       bin[i] = bin[i] == 1 ? 0 : 1;
     }
   }
-  
 }
