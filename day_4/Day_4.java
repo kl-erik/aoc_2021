@@ -12,7 +12,9 @@ public class Day_4 {
 
     try (Scanner sc = new Scanner(file)) {
       int[] nums = numListToArray(getNums(sc.nextLine()));
+      sc.nextLine();
       int[][][] boards = boardsListToArray(getBoards(sc));
+      System.out.println(new Part_1().solve(nums, boards));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
