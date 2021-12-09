@@ -1,5 +1,7 @@
 package day_3;
 
+import static day_3.BinUtil.*;
+
 public class Part_1 {
 
   public int solve(int[][] input) {
@@ -8,9 +10,9 @@ public class Part_1 {
     }
 
     int[] bin = process(input);
-    int gamma = BinUtil.getVal(bin);
-    BinUtil.flip(bin);
-    int epsilon = BinUtil.getVal(bin);
+    int gamma = getVal(bin);
+    flip(bin);
+    int epsilon = getVal(bin);
 
     return gamma * epsilon;
   }

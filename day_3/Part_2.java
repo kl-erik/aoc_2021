@@ -2,11 +2,13 @@ package day_3;
 
 import java.util.ArrayList;
 
+import static day_3.BinUtil.*;
+
 public class Part_2 {
 
   public int solve(int[][] input) {
-    int oxygen = BinUtil.getVal(filter(input, true));
-    int co2 = BinUtil.getVal(filter(input, false));
+    int oxygen = getVal(filter(input, true));
+    int co2 = getVal(filter(input, false));
 
     return oxygen * co2;
   }
