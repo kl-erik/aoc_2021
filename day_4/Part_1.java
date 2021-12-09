@@ -30,18 +30,23 @@ public class Part_1 {
     HashMap<Integer, HashMap<Integer, Position>> boardsMap = new HashMap<>();
 
     for (int board = 0; board < boards.length; board++) {
-      HashMap<Integer, Position> numMap = new HashMap<>();
-
-      for (int row = 0; row < boards[board].length; row++) {
-        for (int col = 0; col < boards[board][row].length; col++) {
-          numMap.put(boards[board][row][col], new Position(row, col));
-        }
-      }
-
+      HashMap<Integer, Position> numMap = getNumMap(boards[board]);
       boardsMap.put(board, numMap);
     }
 
     return boardsMap;
+  }
+
+  private HashMap<Integer, Position> getNumMap(int[][] board) {
+    HashMap<Integer, Position> numMap = new HashMap<>();
+
+    for (int row = 0; row < board.length; row++) {
+      for (int col = 0; col < board[row].length; col++) {
+        numMap.put(board[row][col], new Position(row, col));
+      }
+    }
+
+    return numMap;
   }
 
   private boolean checkCol(boolean[][] marked, int col) {
