@@ -15,6 +15,7 @@ public class Day_4 {
       sc.nextLine();
       int[][][] boards = boardsListToArray(getBoards(sc));
       System.out.println(new Part_1().solve(nums, boards));
+      System.out.println(new Part_2().solve(nums, boards));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
