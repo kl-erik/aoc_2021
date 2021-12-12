@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static day_5.Part_1.solve;;
+import static day_5.Part_1.solve;
 
 public class Day_5 {
   public static void main(String[] args) {
