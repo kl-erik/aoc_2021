@@ -5,15 +5,16 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static day_5.Part_1.solve;;
+
 public class Day_5 {
   public static void main(String[] args) {
-    // File file = new File("day_5/test.txt");
     File file = new File("day_5/input.txt");
 
     try (Scanner sc = new Scanner(file)) {
       ArrayList<ArrayList<Point>> lineList = getLines(sc);
       Point[][] lineArray = toLineArray(lineList);
-      System.out.println(new Part_1().solve(lineArray));
+      System.out.println(solve(lineArray));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -46,30 +47,55 @@ public class Day_5 {
 
     if (x1 == x2) {
       if (y1 <= y2) {
-        getVertical(x1, y1, y2, line);
+        addVertical(x1, y1, y2, line);
       } else {
-        getVertical(x1, y2, y1, line);
+        addVertical(x1, y2, y1, line);
       }
     } else if (y1 == y2) {
-      if (x1 <= x2) {
-        getHorizontal(y1, x1, x2, line);
+      if (x1 < x2) {
+        addHorizontal(y1, x1, x2, line);
       } else {
-        getHorizontal(y1, x2, x1, line);
+        addHorizontal(y1, x2, x1, line);
+      }
+    } else { // Part 2
+      if (x1 < x2) {
+        if (y1 < y2) {
+          addDiagonal(x1, y1, x2, y2, 1, line);
+        } else {
+          addDiagonal(x1, y1, x2, y2, -1, line);
+        }
+      } else {
+        if (y1 < y2) {
+          addDiagonal(x2, y2, x1, y1, -1, line);
+        } else {
+          addDiagonal(x2, y2, x1, y1, 1, line);
+        }
       }
     }
 
     return line;
   }
 
-  private static void getVertical(int x, int y1, int y2, ArrayList<Point> line) {
+  private static void addVertical(int x, int y1, int y2, ArrayList<Point> line) {
     for (int y = y1; y <= y2; y++) {
       line.add(new Point(x, y));
     }
   }
 
-  private static void getHorizontal(int y, int x1, int x2, ArrayList<Point> line) {
+  private static void addHorizontal(int y, int x1, int x2, ArrayList<Point> line) {
     for (int x = x1; x <= x2; x++) {
       line.add(new Point(x, y));
+    }
+  }
+
+  private static void addDiagonal(int x1, int y1, int x2, int y2, int k, ArrayList<Point> line) {
+    int x = x1;
+    int y = y1;
+
+    while (x <= x2) {
+      line.add(new Point(x, y));
+      x ++;
+      y += k;
     }
   }
 

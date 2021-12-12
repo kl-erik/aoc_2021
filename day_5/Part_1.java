@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Part_1 {
 
-  public int solve(Point[][] lineArray) {
+  public static int solve(Point[][] lineArray) {
     HashMap<Integer, HashMap<Integer, Integer>> xs = new HashMap<>();
 
     for (int i = 0; i < lineArray.length; i++) {
