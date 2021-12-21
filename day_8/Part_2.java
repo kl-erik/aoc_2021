@@ -17,7 +17,6 @@ public class Part_2 {
       filter(segmentsMap, entry.getSignals());
       filter(segmentsMap, entry.getDigits());
       sum += getOutput(entry.getDigits(), segmentsMap);
-      
     }
 
     return sum;

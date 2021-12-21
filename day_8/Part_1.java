@@ -20,5 +20,4 @@ public class Part_1 {
 
     return sDigits;
   }
-  
 }
