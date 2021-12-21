@@ -9,6 +9,19 @@ import java.util.Set;
 import static java.lang.Math.pow;
 
 public class Part_2 {
+  final private static HashMap<Integer, Set<Segment>> digits = new HashMap<>() {{
+    put(0, new HashSet<>(Arrays.asList(Segment.A, Segment.B, Segment.C, Segment.E, Segment.F, Segment.G)));
+    put(1, new HashSet<>(Arrays.asList(Segment.C, Segment.F)));
+    put(2, new HashSet<>(Arrays.asList(Segment.A, Segment.C, Segment.D, Segment.E, Segment.G)));
+    put(3, new HashSet<>(Arrays.asList(Segment.A, Segment.C, Segment.D, Segment.F, Segment.G)));
+    put(4, new HashSet<>(Arrays.asList(Segment.B, Segment.C, Segment.D, Segment.F)));
+    put(5, new HashSet<>(Arrays.asList(Segment.A, Segment.B, Segment.D, Segment.F, Segment.G)));
+    put(6, new HashSet<>(Arrays.asList(Segment.A, Segment.B, Segment.D, Segment.E, Segment.F, Segment.G)));
+    put(7, new HashSet<>(Arrays.asList(Segment.A, Segment.C, Segment.F)));
+    put(8, new HashSet<>(Arrays.asList(Segment.values())));
+    put(9, new HashSet<>(Arrays.asList(Segment.A, Segment.B, Segment.C, Segment.D, Segment.F, Segment.G)));
+  }};
+
   public static int solve_2(ArrayList<Entry> entries) {
     int sum = 0;
 
@@ -16,7 +29,7 @@ public class Part_2 {
       HashMap<Segment, Set<Segment>> segmentsMap = segmentsMap();
       filter(segmentsMap, entry.getSignals());
       filter(segmentsMap, entry.getDigits());
-      sum += getOutput(entry.getDigits(), segmentsMap);
+      sum += getResult(entry.getDigits(), segmentsMap, new HashMap<>(), 0);
     }
 
     return sum;
@@ -35,11 +48,11 @@ public class Part_2 {
   private static void filter(HashMap<Segment, Set<Segment>> segmentsMap, Segment[][] segments) {
     for (Segment[] segment : segments) {
       if (segment.length == 2) {
-        updateSegments(segmentsMap, new HashSet<>(Arrays.asList(segment)), intToDigit(1));
+        updateSegments(segmentsMap, new HashSet<>(Arrays.asList(segment)), digits.get(1));
       } else if (segment.length == 4) {
-        updateSegments(segmentsMap, new HashSet<>(Arrays.asList(segment)), intToDigit(4));
+        updateSegments(segmentsMap, new HashSet<>(Arrays.asList(segment)), digits.get(4));
       } else if (segment.length == 3) {
-        updateSegments(segmentsMap, new HashSet<>(Arrays.asList(segment)), intToDigit(7));
+        updateSegments(segmentsMap, new HashSet<>(Arrays.asList(segment)), digits.get(7));
       }
     }
   }
@@ -59,86 +72,48 @@ public class Part_2 {
     }
   }
 
-  private static int getOutput(Segment[][] outputDigits, HashMap<Segment, Set<Segment>> segmentsMap) {
-    HashMap<Segment, Segment> combination = new HashMap<>();
+  private static int getResult(Segment[][] outputDigits, HashMap<Segment, Set<Segment>> segmentsMap, HashMap<Segment, Segment> combination, int i) {
+    for (Segment segment : segmentsMap.get(Segment.values()[i])) {
+      if (!combination.containsKey(segment)) {
+        combination.put(segment, Segment.values()[i]);
+        int result = i == Segment.values().length - 1 ? tryDecode(outputDigits, combination) : getResult(outputDigits, segmentsMap, combination, i + 1);
 
-    return getOutput(outputDigits, segmentsMap, combination, 0);
-  }
-
-  /*
-  * Recursively finds a combination from all segments.
-  * Once a combination is found, it "pauses" the recursion and tries to decode the output digits.
-  * If it succeeds, the decoded value is returned.
-  * Otherwise, it "jumps back" and recursively looks for a different combination.
-  */
-  private static int getOutput(Segment[][] outputDigits, HashMap<Segment, Set<Segment>> segmentsMap, HashMap<Segment, Segment> combination, int i) {
-    if (i < Segment.values().length) {
-      for (Segment segment : segmentsMap.get(Segment.values()[i])) {
-        if (!combination.containsKey(segment)) {
-          combination.put(segment, Segment.values()[i]);
-          int output = getOutput(outputDigits, segmentsMap, combination, i + 1);
-
-          if (output >= 0) {
-            return output;
-          } else {
-            combination.remove(segment);
-          }
+        if (result >= 0) {
+          return result;
+        } else {
+          combination.remove(segment);
         }
       }
-    } else {
-      int output = 0;
-
-      for (int j = 0; j < outputDigits.length; j++) {
-        Set<Segment> digit = new HashSet<>();
-
-        for (Segment segments : outputDigits[j]) {
-          digit.add(combination.get(segments));
-        }
-
-        boolean digitFound = false;
-
-        for (int k = 0; k < 10; k++) {
-          if (intToDigit(k).equals(digit)) {
-            output += k * pow(10, outputDigits.length - (j + 1));
-            digitFound = true;
-            break;
-          }
-        }
-
-        if (!digitFound) {
-          return -1;
-        }
-      }
-
-      return output;
     }
 
     return -1;
   }
 
-  private static Set<Segment> intToDigit(int i) {
-    if (i == 0) {
-      return new HashSet<>(Arrays.asList(Segment.A, Segment.B, Segment.C, Segment.E, Segment.F, Segment.G));
-    } else if (i == 1) {
-      return new HashSet<>(Arrays.asList(Segment.C, Segment.F));
-    } else if (i == 2) {
-      return new HashSet<>(Arrays.asList(Segment.A, Segment.C, Segment.D, Segment.E, Segment.G));
-    } else if (i == 3) {
-      return new HashSet<>(Arrays.asList(Segment.A, Segment.C, Segment.D, Segment.F, Segment.G));
-    } else if (i == 4) {
-      return new HashSet<>(Arrays.asList(Segment.B, Segment.C, Segment.D, Segment.F));
-    } else if (i == 5) {
-      return new HashSet<>(Arrays.asList(Segment.A, Segment.B, Segment.D, Segment.F, Segment.G));
-    } else if (i == 6) {
-      return new HashSet<>(Arrays.asList(Segment.A, Segment.B, Segment.D, Segment.E, Segment.F, Segment.G));
-    } else if (i == 7) {
-      return new HashSet<>(Arrays.asList(Segment.A, Segment.C, Segment.F));
-    } else if (i == 8) {
-      return new HashSet<>(Arrays.asList(Segment.values()));
-    } else if (i == 9) {
-      return new HashSet<>(Arrays.asList(Segment.A, Segment.B, Segment.C, Segment.D, Segment.F, Segment.G));
+  private static int tryDecode(Segment[][] outputDigits, HashMap<Segment, Segment> combination) {
+    int result = 0;
+
+    for (int i = 0; i < outputDigits.length; i++) {
+      Set<Segment> digit = new HashSet<>();
+
+      for (Segment segments : outputDigits[i]) {
+        digit.add(combination.get(segments));
+      }
+
+      boolean digitFound = false;
+
+      for (java.util.Map.Entry<Integer, Set<Segment>> entry : digits.entrySet()) {
+        if (entry.getValue().equals(digit)) {
+          result += entry.getKey() * pow(10, outputDigits.length - 1 - i);
+          digitFound = true;
+          break;
+        }
+      }
+
+      if (!digitFound) {
+        return -1;
+      }
     }
 
-    throw new RuntimeException("must be in range 0 <= i <= 9");
+    return result;
   }
 }
