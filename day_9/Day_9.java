@@ -5,46 +5,14 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static day_9.Part_1.solve_p1;
+import static day_9.Part_2.solve_p2;
+
 public class Day_9 {
   public static void main(String[] args) {
     int[][] heightmap = parse("input.txt");
     System.out.println(solve_p1(heightmap));
-  }
-
-  private static int solve_p1(int[][] heightmap) {
-    int sum = 0;
-
-    for (int i = 0; i < heightmap.length; i++) {
-      for (int j = 0; j < heightmap[i].length; j++) {
-        if (lowPoint(heightmap, i, j)) {
-          sum += heightmap[i][j] + 1;
-        }
-      }
-    }
-
-    return sum;
-  }
-
-  private static boolean lowPoint(int[][] heightmap, int i, int j) {
-    boolean lowPoint = true;
-
-    if (i < heightmap.length - 1) {
-      lowPoint &= heightmap[i][j] < heightmap[i + 1][j];
-    }
-
-    if (i > 0) {
-      lowPoint &= heightmap[i][j] < heightmap[i - 1][j];
-    }
-
-    if (j < heightmap[i].length - 1) {
-      lowPoint &= heightmap[i][j] < heightmap[i][j + 1];
-    }
-
-    if (j > 0) {
-      lowPoint &= heightmap[i][j] < heightmap[i][j - 1];
-    }
-
-    return lowPoint;
+    System.out.println(solve_p2(heightmap));
   }
 
   private static int[][] parse(String string) {
