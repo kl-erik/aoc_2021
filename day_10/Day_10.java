@@ -5,33 +5,36 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static day_10.Part_1.solve_p1;
+
 public class Day_10 {
   public static void main(String[] args) {
-    char[][] chunks = parse("test.txt");
+    char[][] lines = parse("input.txt");
+    System.out.println(solve_p1(lines));
   }
 
   private static char[][] parse(String input) {
     File file = new File("day_10/" + input);
-    ArrayList<char[]> chunks = new ArrayList<>();
+    ArrayList<char[]> list = new ArrayList<>();
 
     try (Scanner scanner = new Scanner(file)) {
       while (scanner.hasNext()) {
-        chunks.add(scanner.nextLine().toCharArray());
+        list.add(scanner.nextLine().toCharArray());
       }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
 
-    return toArray(chunks);
+    return toArray(list);
   }
 
-  private static char[][] toArray(ArrayList<char[]> chunksList) {
-    char[][] chunks = new char[chunksList.size()][];
+  private static char[][] toArray(ArrayList<char[]> list) {
+    char[][] lines = new char[list.size()][];
 
-    for (int i = 0; i < chunks.length; i++) {
-      chunks[i] = chunksList.get(i);
+    for (int i = 0; i < lines.length; i++) {
+      lines[i] = list.get(i);
     }
 
-    return chunks;
+    return lines;
   }
 }
