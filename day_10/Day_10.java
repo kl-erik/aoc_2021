@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import static day_10.Part_1.solve_p1;
+import static day_10.Part_2.solve_p2;
 
 public class Day_10 {
   public static void main(String[] args) {
     char[][] lines = parse("input.txt");
     System.out.println(solve_p1(lines));
+    System.out.println(solve_p2(lines));
   }
 
   private static char[][] parse(String input) {
