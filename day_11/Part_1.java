@@ -5,27 +5,31 @@ public class Part_1 {
     int flashes = 0;
 
     for (int i = 0; i < 100; i++) {
-      step(octopuses);
-      flashes += countFlashes(octopuses);
+      flashes += step(octopuses);
     }
 
     return flashes;
   }
 
-  private static void step(int[][] octopuses) {
+  private static int step(int[][] octopuses) {
     for (int i = 0; i < octopuses.length; i++) {
       for (int j = 0; j < octopuses[i].length; j++) {
         update(octopuses, i, j);
       }
     }
 
+    int flashes = 0;
+
     for (int i = 0; i < octopuses.length; i++) {
       for (int j = 0; j < octopuses[i].length; j++) {
         if (octopuses[i][j] > 9) {
           octopuses[i][j] = 0;
+          flashes++;
         }
       }
     }
+
+    return flashes;
   }
 
   private static void update(int[][] octopuses, int i, int j) {
@@ -69,19 +73,5 @@ public class Part_1 {
         update(octopuses, i + 1, j + 1);
       }
     }
-  }
-
-  private static int countFlashes(int[][] octopuses) {
-    int flashes = 0;
-
-    for (int i = 0; i < octopuses.length; i++) {
-      for (int j = 0; j < octopuses[i].length; j++) {
-        if (octopuses[i][j] == 0) {
-          flashes++;
-        }
-      }
-    }
-
-    return flashes;
   }
 }
