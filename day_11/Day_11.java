@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import static day_11.Part_1.solve_p1;
+import static day_11.Part_2.solve_p2;
 
 public class Day_11 {
   public static void main(String[] args) {
     int[][] octopuses = parse("input.txt");
-    System.out.println(solve_p1(octopuses));
+    System.out.println(solve_p1(clone(octopuses)));
+    System.out.println(solve_p2(octopuses));
   }
 
   private static int[][] parse(String input) {
@@ -52,5 +54,15 @@ public class Day_11 {
     }
 
     return octopuses;
+  }
+
+  private static int[][] clone(int[][] original) {
+    int[][] clone = new int[original.length][];
+
+    for (int i = 0; i < clone.length; i++) {
+      clone[i] = original[i].clone();
+    }
+
+    return clone;
   }
 }
