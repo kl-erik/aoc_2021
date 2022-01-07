@@ -7,14 +7,42 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import static day_12.Part_1.solve_1;
-import static day_12.Part_2.solve_2;
-
 public class Day_12 {
   public static void main(String[] args) {
     HashMap<String, Set<String>> mappings = parse("input.txt");
-    System.out.println(solve_1(mappings));
-    System.out.println(solve_2(mappings));
+    System.out.println(dfs(mappings, "start", new HashSet<>(), true)); // part 1
+    System.out.println(dfs(mappings, "start", new HashSet<>(), false)); // part 2
+  }
+
+  private static int dfs(HashMap<String, Set<String>> mappings, String current, Set<String> visited, boolean visitedSmallTwice) {
+    if (current.equals("end")) {
+      return 1;
+    }
+
+    int paths = 0;
+
+    for (String node : mappings.get(current)) {
+      Set<String> newVisited = new HashSet<>(visited);
+      newVisited.add(node);
+
+      if (isUpperCase(node) || !visited.contains(node)) {
+        paths += dfs(mappings, node, newVisited, visitedSmallTwice);
+      } else if (!visitedSmallTwice) {
+        paths += dfs(mappings, node, newVisited, true);
+      }
+    }
+
+    return paths;
+  }
+
+  private static boolean isUpperCase(String s) {
+    for (char c : s.toCharArray()) {
+      if (Character.isLowerCase(c)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   private static HashMap<String, Set<String>> parse(String string) {
