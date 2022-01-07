@@ -9,17 +9,16 @@ public class Part_1 {
     return dfs(mappings, "start", new HashSet<>());
   }
 
-  private static int dfs(HashMap<String, Set<String>> mappings, String currentNode, Set<String> visited) {
-    if (currentNode.equals("end")) {
+  private static int dfs(HashMap<String, Set<String>> mappings, String current, Set<String> visited) {
+    if (current.equals("end")) {
       return 1;
     }
 
     int paths = 0;
 
-    for (String node : mappings.get(currentNode)) {
+    for (String node : mappings.get(current)) {
       if (isUpperCase(node) || !visited.contains(node)) {
-        Set<String> newVisited = new HashSet<>();
-        newVisited.addAll(visited);
+        Set<String> newVisited = new HashSet<>(visited);
         newVisited.add(node);
         paths += dfs(mappings, node, newVisited);
       }
@@ -28,7 +27,7 @@ public class Part_1 {
     return paths;
   }
 
-  private static boolean isUpperCase(String s) {
+  public static boolean isUpperCase(String s) {
     for (char c : s.toCharArray()) {
       if (Character.isLowerCase(c)) {
         return false;

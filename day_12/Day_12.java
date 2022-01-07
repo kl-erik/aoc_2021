@@ -8,11 +8,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static day_12.Part_1.solve_1;
+import static day_12.Part_2.solve_2;
 
 public class Day_12 {
   public static void main(String[] args) {
     HashMap<String, Set<String>> mappings = parse("input.txt");
     System.out.println(solve_1(mappings));
+    System.out.println(solve_2(mappings));
   }
 
   private static HashMap<String, Set<String>> parse(String string) {
